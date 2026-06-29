@@ -14,6 +14,6 @@ namespace Licenses.Models
         [ForeignKey("Lot")]
         public int LotId { get; set; }
         public Lot ? Lot  { get; set; }
-        public IQueryable<TransactionLotOrder>? TransactionLotOrders { get; set; }
+        public ICollection<TransactionLotOrder>? TransactionLotOrders { get; set; } = new HashSet<TransactionLotOrder>();
     }
 }

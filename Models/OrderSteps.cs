@@ -14,7 +14,7 @@ namespace Licenses.Models
         [ForeignKey("Step")]
         public int StepId { get; set; }
         public Step? Step { get; set; }
-        public IQueryable<LotOrderSteps>?LotOrderSteps { get; set; }
+        public ICollection<LotOrderSteps>?LotOrderSteps { get; set; }=new  HashSet<LotOrderSteps>();
 
     }
 }

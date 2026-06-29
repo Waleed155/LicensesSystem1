@@ -11,8 +11,7 @@ namespace Licenses.Models
         [ForeignKey("Stage")]
         public int StageId { get; set; }
         public Stage? Stage { get; set; }
-        
-        public IQueryable<TransactionLotOrderStages>? TransactionLotOrderStages { get; set; }
+        public ICollection<TransactionLotOrderStages>? TransactionLotOrderStages { get; set; } = new HashSet<TransactionLotOrderStages>();
 
 
     }

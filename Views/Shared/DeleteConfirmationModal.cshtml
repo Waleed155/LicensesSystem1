@@ -1,0 +1,63 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@Html.AntiForgeryToken()
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title">
+                    <i class="bi bi-exclamation-triangle-fill"></i>
+                    تأكيد الحذف
+                </h5>
+
+                <button type="button"
+                        class="btn-close btn-close-white"
+                        data-bs-dismiss="modal">
+                </button>
+            </div>
+
+            <div class="modal-body">
+         هل انت متاكد من الحذف             
+           <br />
+                <strong id="clientName"></strong>
+            </div>
+
+            <div class="modal-footer">
+
+                <button class="btn btn-secondary"
+                        data-bs-dismiss="modal">
+                    إلغاء
+                </button>
+
+                <form id="deleteForm" method="post" asp-action="Delete">
+                    <input type="hidden" name="id" id="deleteId" />                    
+                    <button type="submit" class="btn btn-danger">
+                        نعم إحذف
+                    </button>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<script>
+    document.getElementById('deleteModal')
+        .addEventListener('show.bs.modal', function (event) {
+
+        const button = event.relatedTarget;
+
+        const id = button.getAttribute('data-id');
+        const name = button.getAttribute('data-name');
+
+        document.getElementById('clientName').textContent = name;
+
+            document.getElementById('deleteId').value = id;
+
+    });
+</script>
+ 

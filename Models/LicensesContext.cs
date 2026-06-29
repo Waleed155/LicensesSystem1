@@ -10,7 +10,7 @@ namespace Licenses.Models
         }
         public DbSet<Client> Clients { get; set; }
         public DbSet<Lot>Lots { get; set; }
-        public DbSet<ExcutivePosition> Excutives { get; set; }
+        public DbSet<ExcutivePosition> ExcutivePositions { get; set; }
         public DbSet<ActivityType> ActivityTypes { get; set; }
         public DbSet<LotOrder> LotOrders { get; set; }
         public DbSet<Order> Orders { get; set; }
@@ -27,6 +27,10 @@ namespace Licenses.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.
+                Entity<Client>().
+                HasIndex(x => x.NationalId).
+                IsUnique();
+            modelBuilder.
                 Entity<TransactionLotOrder>().
                 HasIndex(x => x.TransactionNumber).IsUnique();
             modelBuilder.Entity<TransactionStages>().
@@ -39,6 +43,10 @@ namespace Licenses.Models
                 Entity<Lot>().
                 HasIndex(x => new { x.LotNum, x.AreaName, x.NeighborhoodName }).
                 IsUnique();
+            modelBuilder.Entity<Fees>().
+                Property(f=>f.Amount).
+                HasColumnType("decimal(18,2)");
+
         }
 
     }

@@ -1,0 +1,262 @@
+﻿@using Licenses.Dto;
+@using Licenses.ViewModels.ClientViewModels;
+
+
+@model PagedResult<ClientReadViewModel>
+
+@{
+    ViewData["Title"] = "Clients";
+}
+@if (TempData["SuccessMessage"] != null)
+{
+    <div id="successToast"
+         class="alert alert-success shadow rounded-3 position-fixed"
+         role="alert"
+         style="top:20px; right:20px; z-index:1055; min-width:280px; max-width:350px;">
+
+        <div class="d-flex align-items-center">
+            <i class="bi bi-check-circle-fill me-2 fs-5"></i>
+
+            <div class="flex-grow-1">
+                @TempData["SuccessMessage"]
+            </div>
+
+            <button type="button"
+                    class="btn-close ms-2"
+                    data-bs-dismiss="alert">
+            </button>
+        </div>
+    </div>
+
+    <script>
+        setTimeout(function () {
+            const alert = document.getElementById("successToast");
+
+            if (alert) {
+                bootstrap.Alert.getOrCreateInstance(alert).close();
+            }
+        }, 3000);
+    </script>
+}
+@if (TempData["NoClients"] != null)
+{
+    <div id="NoClientsToast"
+         class="alert alert-success shadow rounded-3 position-fixed"
+         role="alert"
+         style="top:20px; right:20px; z-index:1055; min-width:280px; max-width:350px;">
+
+        <div class="d-flex align-items-center">
+            <i class="bi bi-check-circle-fill me-2 fs-5"></i>
+
+            <div class="flex-grow-1">
+                @TempData["Noclients"]
+            </div>
+
+            <button type="button"
+                    class="btn-close ms-2"
+                    data-bs-dismiss="alert">
+            </button>
+        </div>
+    </div>
+
+    <script>
+        setTimeout(function () {
+            const alert = document.getElementById("NoClientsToast");
+
+            if (alert) {
+                bootstrap.Alert.getOrCreateInstance(alert).close();
+            }
+        }, 3000);
+    </script>
+}
+
+
+
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>صفحه العملاء</h2>
+
+        <a asp-action="Create" class="btn btn-primary">
+اضافه عميل 
+</a>
+    </div>
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-body">
+            <form asp-action="SearchByNameOrNationalId" method="post">
+
+                <div class="input-group">
+
+                    <span class="input-group-text bg-light">
+                        <i class="bi bi-search"></i>
+                    </span>
+
+                    <input type="text"
+                           name="search"
+                           value="@ViewBag.search"
+                           class="form-control"
+                           placeholder="ابحث باسم العميل أو الرقم القومي..." />
+
+                    <button class="btn btn-primary" type="submit">
+                        بحث
+                    </button>
+
+                </div>
+
+            </form>
+
+
+        </div>
+    </div>
+
+    <partial name="DeleteConfirmationModal" />
+
+    @if (TempData["DeleteMessage"] != null)
+    {
+        <div id="DeleteAlert"
+             class="alert alert-success alert-dismissible fade show"
+             role="alert">
+
+            @TempData["DeleteMessage"]
+
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert">
+            </button>
+        </div>
+    }
+
+   
+
+
+
+
+     <div class="card shadow">
+        <div class="table-responsive">
+
+
+            <table class="table table-hover align-middle ">
+                <thead class=" table-dark">
+                    <tr>
+                        <th>إسم العميل</th>
+                        <th>رقم الهويه </th>
+                        <th>رقم الواتس</th>
+                        <th>رقم هاتف إحتياطي</th>
+
+
+                        <th width="250">Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var client in Model.Items)
+                    {
+                        <tr>
+                            <td>@client.Name</td>
+                            <td>@client.NationalId</td>
+                            <td>@client.FirstPhoneNumber</td>
+                            <th>@client.SecondPhoneNumber</th>
+
+                            <td>
+                               
+                                <a asp-action="DetailsWithLots"
+                                   asp-route-id="@client.Id"
+                                   class="btn btn-info btn-sm">
+                                    <i class="bi bi-eye-fill me-1"></i>
+                                تفاصيل
+                                </a>
+                               
+
+                                <a asp-action="Edit"
+                                   asp-route-id="@client.Id"
+                                   class="btn btn-warning btn-sm">
+                                    <i class="bi bi-pencil-square me-1"></i>
+                                    تعديل
+                                </a>
+                                
+
+                                <button type="button"
+                                
+                                    class="btn btn-danger btn-sm" 
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#deleteModal"
+                                        data-id="@client.Id"
+                                        data-name="@client.Name">
+
+                                    <i class="bi bi-trash"></i>
+                                    حذف
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+
+        </div>
+    </div>
+   
+
+</div>
+
+
+
+    @if (Model.TotalPages > 0)
+    {
+        <div class="card-footer bg-white">
+            <nav>
+                <ul class="pagination justify-content-center mb-0">
+
+                    @for (int i = 1; i <= Model.TotalPages; i++)
+                    {
+                        <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                            @if(ViewBag.Search==null){
+                            <a class="page-link"
+                               asp-action="Index"
+                               asp-route-page="@i"
+                               asp-route-search="@ViewBag.Search">
+                                @i
+                            </a>
+                            }
+                            @if(ViewBag.Search!=null)
+                            {
+
+                            <form asp-action="SearchByNameOrNationalId" method="post" class="d-inline">
+                                <input type="hidden" name="search" value="@ViewBag.Search" />
+                                <input type="hidden" name="page" value="@i" />
+
+                                <button type="submit"
+                                        class="btn @(i == Model.CurrentPage ? "btn-primary" : "btn-outline-primary")">
+                                    @i
+                                </button>
+                            </form>
+                            }
+
+                        </li>
+                    }
+
+                </ul>
+            </nav>
+        </div>
+    }
+
+</div>
+
+@section Scripts
+{
+    <script>
+        setTimeout(function () {
+            const alert = document.getElementById("DeleteAlert");
+
+            if (alert) {
+                alert.classList.remove("show");
+                alert.classList.add("fade");
+
+                setTimeout(() => {
+                    alert.remove();
+                }, 500); // wait for fade animation
+            }
+        }, 3000); // 3 seconds
+    </script>
+}

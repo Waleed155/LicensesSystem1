@@ -3,6 +3,6 @@
     public class ActivityType:BaseModel
     {
         public string Name { get; set; }
-        public IQueryable<Lot>? Lots { get; set; }
+        public ICollection<Lot>? Lots { get; set; }=new HashSet<Lot>();
     }
 }

@@ -17,6 +17,7 @@ using Licenses.Repositories.StepOrderRepositories;
 using Licenses.Repositories.LotOrderStepsRepositpories;
 using Licenses.Repositories.TransactionStagesRepository;
 using Licenses.Repositories.TransactionLotOrderStagesRepositories;
+using Licenses.Services.ClientServices;
 
 namespace Licenses
 {
@@ -25,17 +26,19 @@ namespace Licenses
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             #region ConnectionString
-            var connectionString = builder.Configuration.GetConnectionString("BasicCS");
+            var connectionString = builder.
+                Configuration.
+                GetConnectionString("BasicCS");
             builder.
                 Services.
                 AddDbContext<LicensesContext>(options => options.
                 UseSqlServer(connectionString));
             #endregion
             #region DependencyInjection
+            #region DependencyInjection For Repositories
             builder.
                 Services.
                 AddScoped<DbContext, LicensesContext>();
@@ -82,6 +85,12 @@ namespace Licenses
             builder. 
                 Services.
                 AddScoped<ITransactionLotOrderStagesRepository,TransactionLotOrderStagesRepository>();
+            #endregion
+            #region DependencyInjection For Services
+            builder.
+                Services.
+                AddScoped<IClientService,ClientService>();
+            #endregion
             #endregion
             #region AddLocalizationForArabic 
             builder.Services.AddLocalization(op => op.ResourcesPath = "Resources");

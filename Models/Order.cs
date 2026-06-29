@@ -4,9 +4,9 @@ namespace Licenses.Models
     public class Order:BaseModel
     {
         public string Name { get; set; }
-        public IQueryable<LotOrder>? LotOrders { get; set; }
-        public IQueryable<OrderSteps>? OrderSteps { get; set; }
-        public IQueryable<Transaction> ? Transactions { get; set; }
+        public ICollection<LotOrder>? LotOrders { get; set; } = new HashSet<LotOrder>();
+        public ICollection<OrderSteps>? OrderSteps { get; set; } = new HashSet<OrderSteps>();
+        public ICollection<Transaction>? Transactions { get; set; } = new HashSet<Transaction>();
 
     }
 }

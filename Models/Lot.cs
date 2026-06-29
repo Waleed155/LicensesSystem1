@@ -7,10 +7,9 @@ namespace Licenses.Models
         public string LotNum { get; set; }
         public string  AreaName { get; set; } 
         public string  NeighborhoodName { get; set; }
-        public string BuildingNumber { get; set; } = "0";
-
+        public string OwnerName { get; set; }
+        public string UnitNumber { get; set; } = "-";
         public int FileNumber { get; set; }
-        public  DateTime EntryDate { get; set; }=DateTime.Now;
         [ForeignKey("Client")]
         public int ClientId { get; set; }
         public Client?  Client { get; set; }
@@ -20,7 +19,7 @@ namespace Licenses.Models
         [ForeignKey("ActivityType")]
         public int ActivityTypeId { get; set; }
         public ActivityType? ActivityType { get; set; }
-        public IQueryable<LotOrder>? LotOrders { get; set; }
+        public ICollection<LotOrder>? LotOrders { get; set; }=new HashSet<LotOrder>();
 
 
     }

@@ -4,7 +4,7 @@
     {
         public string Name { get; set; }   
         
-        public IQueryable<OrderSteps>?OrderSteps { get; set; }
+        public ICollection<OrderSteps>? OrderSteps { get; set; } = new HashSet<OrderSteps>();
 
 
     }

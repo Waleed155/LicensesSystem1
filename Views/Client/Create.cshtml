@@ -1,0 +1,129 @@
+﻿@using Licenses.ViewModels.ClientViewModels;
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model ClientAddViewModel;
+@{
+}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6">
+
+            <div class="card shadow-lg border-0 rounded-4">
+
+              <div class="card-header bg-primary text-white rounded-top-4">
+                 <h3 class="mb-0">
+                   <i class="bi bi-person-plus-fill me-2"></i>
+                      اضافه عميل جديد
+                 </h3>
+               </div>
+
+            <div class="card-body p-4">
+                    <div asp-validation-summary="ModelOnly"
+                         class="alert alert-danger"></div>
+                   <form asp-action="Create" method="post">
+                        <div class="mb-3">
+                            <label asp-for="Name" class="form-label fw-semibold"></label>
+
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="bi bi-person"></i>
+                                </span>
+
+                                <input asp-for="Name"
+                                       class="form-control form-control-lg"
+                                       placeholder="Enter client name">
+                            </div>
+
+                            <span asp-validation-for="Name"
+                                  class="text-danger"></span>
+                        </div>
+
+                        <!-- National ID -->
+                        <div class="mb-3">
+                            <label asp-for="NationalId"
+                                   class="form-label fw-semibold"></label>
+
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="bi bi-credit-card-2-front"></i>
+                                </span>
+
+                                <input asp-for="NationalId"
+                                       class="form-control form-control-lg"
+                                       placeholder="National ID">
+                            </div>
+
+                            <span asp-validation-for="NationalId"
+                                  class="text-danger"></span>
+                        </div>
+
+                        <!-- First Phone -->
+                        <div class="mb-3">
+                            <label asp-for="FirstPhoneNumber"
+                                   class="form-label fw-semibold"></label>
+
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="bi bi-telephone"></i>
+                                </span>
+
+                                <input asp-for="FirstPhoneNumber"
+                                       class="form-control form-control-lg"
+                                       placeholder="01xxxxxxxxx">
+                            </div>
+
+                            <span asp-validation-for="FirstPhoneNumber"
+                                  class="text-danger"></span>
+                        </div>
+
+                        <!-- Second Phone -->
+                        <div class="mb-4">
+                            <label asp-for="SecondPhoneNumber"
+                                   class="form-label fw-semibold"></label>
+
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="bi bi-phone"></i>
+                                </span>
+
+                                <input asp-for="SecondPhoneNumber"
+                                       class="form-control form-control-lg"
+                                       placeholder="Optional">
+                            </div>
+
+
+                            <span asp-validation-for="SecondPhoneNumber"
+                                  class="text-danger"></span>
+                        </div>
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-between">
+
+                            <a asp-action="Index"
+                               class="btn btn-primary btn-lg">
+                                <i class="bi bi-arrow-left"></i>
+                                الرجوع لصفحه العملاء
+                            </a>
+          <button type="submit"
+            asp-action="Save"
+            class="btn btn-success btn-lg">
+        <i class="bi bi-check-circle"></i>
+        اضافه عميل
+    </button>
+    </div>
+                   </form>
+
+             </div>
+
+         </div>
+
+        </div>
+    </div>
+</div>
+
+
+@section Scripts
+          {
+    <partial name="_ValidationScriptsPartial" />
+}
+

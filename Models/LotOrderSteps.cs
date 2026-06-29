@@ -7,7 +7,7 @@ namespace Licenses.Models
     {
         
         public StepStatus StepStatus { get; set; }
-        public StringBuilder? Notes { get; set; }
+        public String? Notes { get; set; }
         public DateOnly StartingDate { get; set; }= DateOnly.FromDateTime(DateTime.Now);
         public DateOnly EndingDate { get; set; }
 

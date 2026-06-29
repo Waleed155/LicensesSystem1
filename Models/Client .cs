@@ -6,7 +6,7 @@
         public string  NationalId { get; set; }
         public string FirstPhoneNumber { get; set; }
         public string ? SecondPhoneNumber { get; set; }
-        public IQueryable<Lot> ?Lots { get; set; }
+        public ICollection<Lot> ?Lots { get; set; }=new HashSet<Lot>();
 
 
     }

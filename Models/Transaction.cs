@@ -9,8 +9,8 @@ namespace Licenses.Models
         [ForeignKey("Order")]
         public int OrderId { get; set; }
         public Order? Order { get; set; }
-        public IQueryable<TransactionLotOrder> ?TransactionLotOrders {  get; set; }  
-        public IQueryable<TransactionStages> ?TransactionStages { get; set; }
+        public ICollection<TransactionLotOrder>? TransactionLotOrders { get; set; } = new HashSet<TransactionLotOrder>();  
+        public ICollection<TransactionStages>? TransactionStages { get; set; } = new HashSet<TransactionStages>();
 
     }
 }

@@ -15,8 +15,8 @@ namespace Licenses.Models
         [ForeignKey("TransactionStages")]
         public int TransactionStagesId {get;set;}
         public TransactionStages ? TransactionStages { get; set; }
-        public IQueryable<TransactionLotOrderStages> ? TransactionLotOrderStages { get; set; }
-        public IQueryable<Fees>? Fees { get; set; }
+        public ICollection<TransactionLotOrderStages>? TransactionLotOrderStages { get; set; } = new HashSet<TransactionLotOrderStages>();
+        public ICollection<Fees>? Fees { get; set; }=new HashSet<Fees>();
 
 
     }

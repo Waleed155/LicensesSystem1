@@ -1,0 +1,130 @@
+﻿@using Licenses.ViewModels.ClientViewModels;
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model ClientWithLotsViewModel
+@{
+}
+
+
+<div class="container mt-4">
+
+    <!-- Client Information -->
+    <div class="card shadow mb-4">
+        <div class="card-header bg-primary text-white">
+            <h3 class="mb-0">Client Information</h3>
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <div class="col-md-6 mb-3">
+                    <label class="fw-bold">اسم العميل</label>
+                    <div class="form-control bg-light">
+                        @Model.Name
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="fw-bold"> رقم الهويه</label>
+                    <div class="form-control bg-light">
+                        @Model.NationalId
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="fw-bold">رقم الهاتف </label>
+                    <div class="form-control bg-light">
+                        @Model.FirstPhoneNumber
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="fw-bold">رقم الهاتف الاخر </label>
+                    <div class="form-control bg-light">
+                        @(string.IsNullOrWhiteSpace(Model.SecondPhoneNumber)
+                            ? "Not Available"
+                            : Model.SecondPhoneNumber)
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="card-footer text-end">
+            <a asp-action="Edit"
+               asp-route-id="@Model.Id"
+               class="btn btn-warning">
+                Edit Client
+            </a>
+
+            <a asp-action="Index"
+               class="btn btn-secondary">
+                Back
+            </a>
+        </div>
+    </div>
+
+    <!-- Lots -->
+    <div class="card shadow">
+
+        <div class="card-header bg-success text-white">
+            <h4 class="mb-0">
+                Owned Lots (@Model.LotsViewModel.Count())
+            </h4>
+        </div>
+
+        <div class="card-body">
+
+            @if (!Model.LotsViewModel.Any())
+            {
+                <div class="alert alert-info">
+                    This client does not own any lots.
+                </div>
+            }
+            else
+            {
+                <table class="table table-bordered table-hover">
+
+                    <thead class="table-light">
+                        <tr>
+                            <th>رقم القطعه</th>
+                            <th>المنطقه</th>
+                            <th>الحي</th>
+                            <th width="150">Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (var lot in Model.LotsViewModel)
+                        {
+                            <tr>
+                                <td>@lot.LotNum</td>
+                                <td>@lot.AreaName</td>
+                                <td>@lot.NeighborhoodName</td>
+
+                                <td>
+                                    <a asp-controller="Lot"
+                                       asp-action="Details"
+                                       asp-route-id="@lot.Id"
+                                       class="btn btn-sm btn-info">
+                                        Details
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+            }
+
+        </div>
+
+    </div>
+
+</div>

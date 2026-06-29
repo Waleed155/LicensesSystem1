@@ -1,5 +1,6 @@
 ﻿using Licenses.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.Eventing.Reader;
 
 namespace Licenses.Repositories.ClientRepositories
 {
@@ -10,10 +11,10 @@ namespace Licenses.Repositories.ClientRepositories
         {
             _Db = Db;
         }
-        public IQueryable<Client> GetAll(int page = 1, int pageSize = 10)
+        public  IQueryable<Client> GetAll(int page = 1, int pageSize = 15)
         {
             page = page <= 0 ? 1 : page;
-            pageSize = pageSize <= 0 ? 10 : pageSize;
+            pageSize = pageSize <= 0 ? 15 : pageSize;
             return _Db.
                 Set<Client>().
                 AsNoTracking().
@@ -27,6 +28,38 @@ namespace Licenses.Repositories.ClientRepositories
                 Set<Client>().
                 AsTracking().
                 SingleOrDefaultAsync(x => x.Id == id && x.IsDeleted == false);
+        }
+        public async Task<Client?> GetByNationalIdAsync(string nationalid)
+        {
+            
+                return await _Db.
+                   Set<Client>().
+                   AsNoTracking().
+                   FirstOrDefaultAsync(c => c.NationalId == nationalid && !c.IsDeleted);
+            
+        }
+        public IQueryable<Client?> GetByNameOrNationalId(string search, int page = 1, int pageSize = 15)
+        {
+            page = page <= 0 ? 1 : page;
+            pageSize = pageSize <= 0 ? 15 : pageSize;
+            return  _Db.
+                Set<Client>().
+                Where(c=>(c.Name.Contains(search)||c.NationalId.Contains(search))  && !c.IsDeleted)     
+                .AsNoTracking().
+
+                Skip((page - 1) * pageSize).
+                Take(pageSize);
+
+        }
+        public  async Task<Client?> GetByIdWithLotsAsync (int id )
+        {
+            var entity= await _Db.
+                Set<Client>().Include(x => x.Lots).
+                AsNoTracking().
+                SingleOrDefaultAsync(x => x.Id == id && x.IsDeleted == false);
+            return entity;
+           
+                
         }
         public  async Task< Client> AddAsync(Client client)
         {
@@ -54,7 +87,20 @@ namespace Licenses.Repositories.ClientRepositories
             return true;
 
         }
-        public async Task SaveChanges()
+        public async Task<int> CountAsync()
+        {
+            return await _Db.
+                Set<Client>()
+                .CountAsync(c => !c.IsDeleted);
+        }
+        public async Task<int> CountSearchAsync(string search)
+        {
+            return await _Db.
+                Set<Client>().
+                Where(c => (c.Name.Contains(search) || c.NationalId.Contains(search))&& !c.IsDeleted)
+                .CountAsync();
+        }
+        public async Task SaveChangesAsync()
         {
             await _Db.SaveChangesAsync();
         }
