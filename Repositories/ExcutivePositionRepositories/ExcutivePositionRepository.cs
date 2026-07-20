@@ -13,24 +13,30 @@ namespace Licenses.Repositories.ExcutivePositionRepositories
             _Db = db;
         }
 
-        public IQueryable<ExcutivePosition> GetAll(int page = 1, int pageSize = 20)
+        public IQueryable<ExcutivePosition> GetAll()
         {
-            page = page <= 0 ? 1 : page;
-            pageSize = pageSize <= 0 ? 10 : pageSize;
+
             return _Db.
                  Set<ExcutivePosition>().
                  AsNoTracking().
-                Where(ex=>ex.IsDeleted==false).
-                Skip((page-1)*pageSize).
-                Take(pageSize);
+                Where(ex => ex.IsDeleted == false);
+             
         }
-        public async Task<ExcutivePosition?> GetById(int id )
+        public async Task<ExcutivePosition?> GetByIdAsync(int id )
         {
             return
              await   _Db.
                 Set<ExcutivePosition>().
                 AsTracking().
                 SingleOrDefaultAsync(ex=>ex.Id == id&&!ex.IsDeleted);
+        }
+        public async Task<ExcutivePosition?> GetByNameAsync(string name)
+        {
+            return await _Db.
+                Set<ExcutivePosition>().
+                AsNoTracking()
+                .FirstOrDefaultAsync(ex => ex.Name == name);
+                
         }
         public async Task<ExcutivePosition> AddAsync (ExcutivePosition excutivePosition)
         {

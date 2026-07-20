@@ -4,11 +4,12 @@ namespace Licenses.Repositories.ExcutivePositionRepositories
 {
     public interface IExcutivePositionRepository
     {
-        public IQueryable<ExcutivePosition> GetAll(int page , int pageSize );
+        public IQueryable<ExcutivePosition> GetAll();
       
-        public Task<ExcutivePosition?> GetById(int id);
-      
-        public  Task<ExcutivePosition> AddAsync(ExcutivePosition excutivePosition);
+        public Task<ExcutivePosition?> GetByIdAsync(int id);
+        public  Task<ExcutivePosition?> GetByNameAsync(string name);
+
+        public Task<ExcutivePosition> AddAsync(ExcutivePosition excutivePosition);
 
 
         public ExcutivePosition Update(ExcutivePosition excutivePosition);

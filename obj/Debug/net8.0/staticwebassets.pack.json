@@ -5,6 +5,22 @@
       "PackagePath": "staticwebassets\\Licenses.bundle.scp.css"
     },
     {
+      "Id": "C:\\Users\\Waleed Beeh\\source\\repos\\Licenses\\Licenses\\wwwroot\\css\\ActivityType\\Create.css",
+      "PackagePath": "staticwebassets\\css\\ActivityType\\Create.css"
+    },
+    {
+      "Id": "C:\\Users\\Waleed Beeh\\source\\repos\\Licenses\\Licenses\\wwwroot\\css\\ActivityType\\Index.css",
+      "PackagePath": "staticwebassets\\css\\ActivityType\\Index.css"
+    },
+    {
+      "Id": "C:\\Users\\Waleed Beeh\\source\\repos\\Licenses\\Licenses\\wwwroot\\css\\ExcutivePosition\\Create.css",
+      "PackagePath": "staticwebassets\\css\\ExcutivePosition\\Create.css"
+    },
+    {
+      "Id": "C:\\Users\\Waleed Beeh\\source\\repos\\Licenses\\Licenses\\wwwroot\\css\\ExcutivePosition\\Index.css",
+      "PackagePath": "staticwebassets\\css\\ExcutivePosition\\Index.css"
+    },
+    {
       "Id": "C:\\Users\\Waleed Beeh\\source\\repos\\Licenses\\Licenses\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },

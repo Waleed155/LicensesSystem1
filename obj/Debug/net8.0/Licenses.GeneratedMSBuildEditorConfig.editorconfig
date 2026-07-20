@@ -18,6 +18,18 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = C:\Users\Waleed Beeh\source\repos\Licenses\Licenses
 build_property._RazorSourceGeneratorDebug = 
 
+[C:/Users/Waleed Beeh/source/repos/Licenses/Licenses/Views/ActivityType/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWN0aXZpdHlUeXBlXENyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Waleed Beeh/source/repos/Licenses/Licenses/Views/ActivityType/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWN0aXZpdHlUeXBlXEVkaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Waleed Beeh/source/repos/Licenses/Licenses/Views/ActivityType/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWN0aXZpdHlUeXBlXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Waleed Beeh/source/repos/Licenses/Licenses/Views/Client/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xpZW50XENyZWF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -36,6 +48,18 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/Waleed Beeh/source/repos/Licenses/Licenses/Views/Client/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xpZW50XEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Waleed Beeh/source/repos/Licenses/Licenses/Views/ExcutivePosition/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhjdXRpdmVQb3NpdGlvblxDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Waleed Beeh/source/repos/Licenses/Licenses/Views/ExcutivePosition/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhjdXRpdmVQb3NpdGlvblxFZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Waleed Beeh/source/repos/Licenses/Licenses/Views/ExcutivePosition/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhjdXRpdmVQb3NpdGlvblxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Waleed Beeh/source/repos/Licenses/Licenses/Views/Home/Index.cshtml]

@@ -18,6 +18,10 @@ using Licenses.Repositories.LotOrderStepsRepositpories;
 using Licenses.Repositories.TransactionStagesRepository;
 using Licenses.Repositories.TransactionLotOrderStagesRepositories;
 using Licenses.Services.ClientServices;
+using Licenses.Services.ActivityTypeServices;
+using Licenses.Services.ExcutivePositionServices;
+
+
 
 namespace Licenses
 {
@@ -90,6 +94,13 @@ namespace Licenses
             builder.
                 Services.
                 AddScoped<IClientService,ClientService>();
+            builder.
+                Services.
+                AddScoped<IActivityTypeService, ActivityTypeService>();
+            builder.
+                Services.
+                AddScoped<IExcutivePositionService, ExcutivePositionService>();
+                
             #endregion
             #endregion
             #region AddLocalizationForArabic 

@@ -61,7 +61,7 @@ namespace Licenses.Validators.Client
                 if(part.Length < 2) return ResultViewModel<bool>.Failure("اسم العميل يجب ان يكون ع الاقل اسم ثلاثي وان يكون كل اسم مكون م حرفين او اكثر ");
             }
                  return ResultViewModel<bool>.Success(true);
-        }
+         }
         public static ResultViewModel<bool> PhoneValidator(string phone)
         {
             if (string.IsNullOrWhiteSpace(phone)) return ResultViewModel<bool>.Failure("لا يوجد رقم هاتف ");

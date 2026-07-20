@@ -11,6 +11,7 @@ using Licenses.Dto.LotDto;
 using Licenses.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Licenses.Dto;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Licenses.Controllers
 {
@@ -27,18 +28,19 @@ namespace Licenses.Controllers
             try
             {
                 var result = await _clientService.GetAllAsync(page, pageSize);
-                if (result.State && result.Result.TotalPages > 0)
+                if (result.State )
                 {
                  
                    var resultViewModel= result.Result.Adapt<PagedResult<ClientReadViewModel>>(); 
                     return View(resultViewModel);
                 }
                 {
-                    return NotFound(result.Message);
+                    return View();
                 }
-            }catch
+            }
+            catch
             {
-                return NotFound("There is problem in controller");
+                return View("Error" , new ErrorViewModelLicenses("ClientLastLayer ","There is problem in controller"));
 
             }
 
@@ -47,29 +49,28 @@ namespace Licenses.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult>SearchByNameOrNationalId(string search, int page= 1, int pageSize = 15)
         {
-            try
+            try 
             {
                 var result = await _clientService.GetByNameOrNationalId(search, page, pageSize);
-                if (result.State&& result.Result.TotalPages>0) {
+                if (result.State&& result.Result!.TotalPages>0) {
                     var resultViewModel = result.Result.Adapt<PagedResult<ClientReadViewModel>>();
                     ViewBag.search = search;
                     return View("Index",resultViewModel);
 
                 }else
                 {
-                    TempData["NoClients"] = result.Message;
+                    TempData["SavingSuccess"] = result.Message;
                      return RedirectToAction("Index");
                 }
 
             }
             catch
             {
-                TempData["NoClients"] = "there is problem in controller";
+                TempData["SavingSuccess"] = "there is problem in controller";
                 return RedirectToAction("Index");
             }
         }
 
-        // GET: ClientController/Details/5
         public async Task< ActionResult> Details(int id)
         {
             try
@@ -84,11 +85,13 @@ namespace Licenses.Controllers
                 return View(clientReadViewModel);
             }catch
             {
-                return RedirectToAction("Error", "Home");
+                return View("Error",new ErrorViewModelLicenses("Client Controller","problem occuerd in Details Action"));
 
             }
             
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DetailsWithLots(int id)
         {
             try
@@ -106,22 +109,20 @@ namespace Licenses.Controllers
                 }
                 else
                 {
-                    return NotFound(result.Message);
+                    return View("Error", new ErrorViewModelLicenses("Client Service", result.Message));
                 }
             }
             catch
             {
-               return RedirectToAction("Error", "Home");
+                return View("Error", new ErrorViewModelLicenses("Client Last Layer", "problem occuerd in DetailsWithLlots Action"));
             }
         }
 
-        // GET: ClientController/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: ClientController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Save(ClientAddViewModel clientAddViewModel)
@@ -136,7 +137,7 @@ namespace Licenses.Controllers
                     var clientAdded = await _clientService.AddAsync(clientDto);
                     if (clientAdded.State && clientAdded.Result!.Id != 0)
                     {
-                        TempData["SuccessMessage"] = clientAdded.Message;
+                        TempData["SavingSuccess"] = clientAdded.Message;
 
                         return RedirectToAction(nameof(Index));
                     }
@@ -152,64 +153,49 @@ namespace Licenses.Controllers
             }
             catch
             {
-                ModelState.AddModelError("", "there is Problem in controller");
-                return RedirectToAction(nameof(Index));
+                ModelState.AddModelError("", "problem in saving in controller");
+                return View();
             }
 
          }
-        
 
-        // GET: ClientController/Edit/5
-        public   async Task< IActionResult> Edit(int id)
-        {
-            try
-            {
-                var clientEditDto =await  _clientService.GetByIdAsync(id);
-                if (clientEditDto.State&& clientEditDto.Result!=null)
-                {
-                    var clientReadViewModel = clientEditDto.Result.Adapt<ClientReadViewModel>();
-                    return View( clientReadViewModel);
-                }
-                else
-                {
-                    return NotFound();
 
-                }
-            }
-            catch 
-            {
-                ModelState.AddModelError("", "there is Problem in controller");
-                return RedirectToAction(nameof(Index));
-            }
-        }
-
-        // POST: ClientController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task< IActionResult> Edit(ClientReadViewModel clientReadViewModel)
+        public  IActionResult Edit(ClientReadViewModel clientReadViewModel)
+        {
+            return View(clientReadViewModel);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task< IActionResult> SaveEditting(ClientReadViewModel clientReadViewModel)
         {
             try
             {
-                var clientReadDto=clientReadViewModel.Adapt<ClientReadDto>();
+                if(!ModelState.IsValid) return View("Edit", clientReadViewModel);
+
+                var clientReadDto =clientReadViewModel.Adapt<ClientReadDto>();
                 var clientEdited=await _clientService.UpdateAsync(clientReadDto);
                 if (clientEdited.State)
                 {
-                    TempData["SuccessMessage"] = clientEdited.Message;
+                    TempData["SavingSuccess"] = "تم التعديل ع بيانات العميل بنجاح";
 
                     return RedirectToAction(nameof(Index));
                 }
                 else
                 {
-                    return View(clientReadViewModel);
+                    ModelState.AddModelError("", clientEdited.Message);
+                    return View("Edit",clientReadViewModel);
                 }
             }
             catch
             {
-                return View(clientReadViewModel);
+                ModelState.AddModelError("", "problem in saving in controller");
+
+                return View("Edit",clientReadViewModel);
             }
         }
 
-        // POST: ClientController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task< IActionResult> Delete(int  id)
@@ -219,20 +205,20 @@ namespace Licenses.Controllers
               var resultDeleting=  await _clientService.SoftDeleteAsync(id);
                 if (resultDeleting.State)
                 {
-                    TempData["DeleteMessage"] = "تم حذف العميل بنجاح";
+                    TempData["SavingSuccess"] = "تم حذف العميل بنجاح";
                     return RedirectToAction(nameof(Index));
 
                 }
                 else
                 {
-                    TempData["DeleteMessage"] = resultDeleting.Message;   
+                    TempData["SavingSuccess"] ="عفوا الحذف لم يتم"+ resultDeleting.Message;   
                     return RedirectToAction(nameof(Index));
 
                 }
             }
             catch
             {
-                TempData["DeleteMessage"] = "there is problem in controller";
+                TempData["SavingSuccess"] = "عفوا الحذف لم يتم" + "there is problem in controller";
                 return RedirectToAction(nameof(Index));
             }
         }

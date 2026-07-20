@@ -178,14 +178,12 @@ namespace Licenses.Services.ClientServices
         }
         public async  Task <ResultViewModel <ClientReadDto>> AddAsync(ClientAddDto clientAddDto)
         {
-        
-
             try
             {
                 var validationResult=ClientValidator.ClientValidate(clientAddDto);
                 var clientExistResult = await _clientRepository.GetByNationalIdAsync(clientAddDto.NationalId);
                 if (clientExistResult != null)
-                    return ResultViewModel<ClientReadDto>.Failure("هذا الرقم القومي مسجل ل عميل اخر");
+                    return ResultViewModel<ClientReadDto>.Failure(" هذا الرقم القومي موجود بالفعل او تم مسحه من الافضل ارجاعه بدلا م اضافه جديد");
                 if (validationResult.State && validationResult.Result)
                 {
                     var client = clientAddDto.Adapt<Client>();
@@ -212,7 +210,9 @@ namespace Licenses.Services.ClientServices
             {
                 var clientExistResult = await _clientRepository.GetByNationalIdAsync(clientReadDto.NationalId);
                 if (clientExistResult != null &&clientExistResult.Id!=clientReadDto.Id)
-                    return ResultViewModel<ClientReadDto>.Failure("هذا الرقم القومي مسجل ل عميل اخر");
+                    return ResultViewModel<ClientReadDto>.
+                        Failure("هذا الرقم القومي موجود بالفعل او تم مسحه من قبل");
+            
 
                 var validationResult = ClientValidator.ClientValidate(clientReadDto.Adapt<ClientAddDto>());
 

@@ -9,16 +9,12 @@ namespace Licenses.Repositories.ActivityTypeRepositories
         public ActivityTypeRepository(DbContext db) { 
         _Db = db;
         }
-        public   IQueryable<ActivityType> GetAll(int page =1 , int pageSize = 10)
-        {
-            page = page <= 0 ? 1 : page;
-            pageSize = pageSize <= 0 ? 10 : pageSize;
+        public   IQueryable<ActivityType> GetAll()
+        { 
             return  _Db.
                 Set<ActivityType>().
                 AsNoTracking().
-                Where(c => c.IsDeleted == false).
-                Skip((page-1)*pageSize).
-                Take(pageSize );
+                Where(c => !c.IsDeleted);
         }
         public async Task< ActivityType?> GetByIdAsync(int id)
         {
@@ -26,6 +22,14 @@ namespace Licenses.Repositories.ActivityTypeRepositories
                 Set<ActivityType>().
                 AsTracking().
                 SingleOrDefaultAsync(x => x.Id == id && x.IsDeleted == false);
+        }
+        public Task<ActivityType?> GetByNameAsync(string name) 
+        {
+            return _Db.
+                Set<ActivityType>().
+                AsNoTracking().
+                FirstOrDefaultAsync(aT => aT.Name==name);
+        
         }
         public async Task< ActivityType> AddAsync(ActivityType activityType)
         {
@@ -61,7 +65,7 @@ namespace Licenses.Repositories.ActivityTypeRepositories
             }
 
         }
-        public async Task SaveChanges()
+        public async Task SaveChangesAsync()
         {
             await _Db.SaveChangesAsync();
         }

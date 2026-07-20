@@ -7,6 +7,21 @@
 @{
 }
 
+@if (Model == null)
+{
+    <div class="alert alert-info shadow-sm text-center">
+
+        <h5 class="mb-2">
+            لايوجد عملاء
+        </h5>
+
+        <a asp-action="Create" class="btn btn-primary mt-2">
+            إضافة أول عميل
+        </a>
+
+    </div>
+}
+
 
 <div class="container mt-4">
 
@@ -55,16 +70,32 @@
         </div>
 
         <div class="card-footer text-end">
-            <a asp-action="Edit"
+            <div class="d-flex justify-content-between">
+
+                <form asp-action="Edit" method="post">
+                <input type="hidden" name="Id" value="@Model.Id" />
+                <input type="hidden" name="Name" value="@Model.Name" />
+                <input type="hidden" name="NationalId" value="@Model.NationalId" />
+                <input type="hidden" name="FirstPhoneNumber" value="@Model.FirstPhoneNumber" />
+                <input type="hidden" name="SecondPhoneNumber" value="@Model.SecondPhoneNumber" />
+                <button id="BtnEdit"
+                        type="submit"
+                        class="btn btn-warning btn-sm">
+                    <i class="bi bi-pencil-square"></i>
+                    تعديل
+                </button>
+            </form>
+           @*  <a asp-action="Edit"
                asp-route-id="@Model.Id"
                class="btn btn-warning">
                 Edit Client
-            </a>
+            </a> *@
 
             <a asp-action="Index"
                class="btn btn-secondary">
                 Back
             </a>
+            </div>
         </div>
     </div>
 

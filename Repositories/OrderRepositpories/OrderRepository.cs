@@ -1,4 +1,4 @@
-﻿using Licenses.Models;
+﻿  using Licenses.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Licenses.Repositories.OrderRepositpories
@@ -28,6 +28,26 @@ namespace Licenses.Repositories.OrderRepositpories
                 AsTracking().
                 SingleOrDefaultAsync(x => x.Id == id && x.IsDeleted == false);
         }
+        public async Task<Order?> GetByNameAsync(string name)
+        {
+            return await _Db.
+                Set<Order>().
+                AsNoTracking().
+                FirstOrDefaultAsync(o => o.Name == name);
+                
+        }
+        public  IQueryable<Order?> SearchByNameAsync(string name,int page=1,int pagesize=10)
+        {
+
+            return  _Db.
+                Set<Order>().
+                AsNoTracking().
+                OrderBy(c => c.Name == name).
+                Where(o => o.Name.Contains(name)&&!o.IsDeleted)
+                .Skip((page-1)*pagesize).
+                Take(pagesize);
+
+        }
         public async Task<Order> AddAsync(Order order)
         {
 
@@ -55,7 +75,7 @@ namespace Licenses.Repositories.OrderRepositpories
             return true;
 
         }
-        public async Task SaveChanges()
+        public async Task SaveChangesAsync()
         {
             await _Db.SaveChangesAsync();
         }

@@ -1,75 +1,40 @@
 ﻿@using Licenses.Dto;
 @using Licenses.ViewModels.ClientViewModels;
 
-
 @model PagedResult<ClientReadViewModel>
-
+@Html.AntiForgeryToken()
 @{
     ViewData["Title"] = "Clients";
 }
-@if (TempData["SuccessMessage"] != null)
+@if (TempData["SavingSuccess"] != null)
 {
-    <div id="successToast"
-         class="alert alert-success shadow rounded-3 position-fixed"
-         role="alert"
-         style="top:20px; right:20px; z-index:1055; min-width:280px; max-width:350px;">
+    <div class="position-fixed top-0 end-0 p-3"
+         style="z-index:1100">
 
-        <div class="d-flex align-items-center">
-            <i class="bi bi-check-circle-fill me-2 fs-5"></i>
+        <div id="successToast"
+             class="toast align-items-center text-bg-success border-0 shadow-lg rounded-4"
+             role="alert"
+             aria-live="assertive"
+             aria-atomic="true">
 
-            <div class="flex-grow-1">
-                @TempData["SuccessMessage"]
+            <div class="d-flex">
+
+                <div class="toast-body fs-6">
+                    <i class="bi bi-check-circle-fill me-2"></i>
+                    @TempData["SavingSuccess"]
+                </div>
+
+                <button type="button"
+                        class="btn-close btn-close-white me-2 m-auto"
+                        data-bs-dismiss="toast">
+                </button>
+
             </div>
 
-            <button type="button"
-                    class="btn-close ms-2"
-                    data-bs-dismiss="alert">
-            </button>
         </div>
+
     </div>
-
-    <script>
-        setTimeout(function () {
-            const alert = document.getElementById("successToast");
-
-            if (alert) {
-                bootstrap.Alert.getOrCreateInstance(alert).close();
-            }
-        }, 3000);
-    </script>
 }
-@if (TempData["NoClients"] != null)
-{
-    <div id="NoClientsToast"
-         class="alert alert-success shadow rounded-3 position-fixed"
-         role="alert"
-         style="top:20px; right:20px; z-index:1055; min-width:280px; max-width:350px;">
-
-        <div class="d-flex align-items-center">
-            <i class="bi bi-check-circle-fill me-2 fs-5"></i>
-
-            <div class="flex-grow-1">
-                @TempData["Noclients"]
-            </div>
-
-            <button type="button"
-                    class="btn-close ms-2"
-                    data-bs-dismiss="alert">
-            </button>
-        </div>
-    </div>
-
-    <script>
-        setTimeout(function () {
-            const alert = document.getElementById("NoClientsToast");
-
-            if (alert) {
-                bootstrap.Alert.getOrCreateInstance(alert).close();
-            }
-        }, 3000);
-    </script>
-}
-
 
 
 
@@ -127,15 +92,27 @@
         </div>
     }
 
-   
 
 
 
+    @if (Model == null)
+    {
+        <div class="alert alert-info shadow-sm text-center">
 
+            <h5 class="mb-2">
+                لايوجد عملاء 
+            </h5>
+
+            <a asp-action="Create" class="btn btn-primary mt-2">
+                 إضافة أول عميل
+            </a>
+
+        </div>
+    }
+    else
+    {
      <div class="card shadow">
         <div class="table-responsive">
-
-
             <table class="table table-hover align-middle ">
                 <thead class=" table-dark">
                     <tr>
@@ -159,21 +136,32 @@
                             <th>@client.SecondPhoneNumber</th>
 
                             <td>
-                               
-                                <a asp-action="DetailsWithLots"
-                                   asp-route-id="@client.Id"
-                                   class="btn btn-info btn-sm">
-                                    <i class="bi bi-eye-fill me-1"></i>
-                                تفاصيل
-                                </a>
-                               
+                                <form asp-action="DetailsWithLots" method="post" class="d-inline">
+                                    <input type="hidden" name="Id" value="@client.Id" />
+                                   
 
-                                <a asp-action="Edit"
-                                   asp-route-id="@client.Id"
-                                   class="btn btn-warning btn-sm">
-                                    <i class="bi bi-pencil-square me-1"></i>
-                                    تعديل
-                                </a>
+
+                                    <button type="submit" class="btn btn-info btn-sm">
+                                        <i class="bi bi-eye-fill me-1"></i>
+                                        تفاصيل
+                                    </button>
+                                </form>
+                               
+                              
+                                <form asp-action="Edit" method="post" class="d-inline">
+                                    <input type="hidden" name="Id" value="@client.Id" />
+                                    <input type="hidden" name="Name" value="@client.Name" />
+                                    <input type="hidden" name="NationalId" value="@client.NationalId" />
+                                    <input type="hidden" name="FirstPhoneNumber" value="@client.FirstPhoneNumber" />
+                                    <input type="hidden" name="SecondPhoneNumber" value="@client.SecondPhoneNumber" />
+
+
+                                    <button type="submit" class="btn btn-warning btn-sm">
+                                        <i class="bi bi-pencil-square"></i>
+                                        تعديل
+                                    </button>
+                                </form>
+
                                 
 
                                 <button type="button"
@@ -196,12 +184,6 @@
 
         </div>
     </div>
-   
-
-</div>
-
-
-
     @if (Model.TotalPages > 0)
     {
         <div class="card-footer bg-white">
@@ -241,11 +223,31 @@
         </div>
     }
 
-</div>
+
+    }
+    </div>
+    </div>
 
 @section Scripts
 {
     <script>
+            document.addEventListener("DOMContentLoaded", function () {
+
+            const toastElement = document.getElementById("successToast");
+
+            if (toastElement) {
+
+                const toast = new bootstrap.Toast(toastElement, {
+                    delay: 4000
+                });
+
+                toast.show();
+
+            }
+
+        });
+    </script>
+   @*  <script>
         setTimeout(function () {
             const alert = document.getElementById("DeleteAlert");
 
@@ -258,5 +260,5 @@
                 }, 500); // wait for fade animation
             }
         }, 3000); // 3 seconds
-    </script>
+    </script> *@
 }

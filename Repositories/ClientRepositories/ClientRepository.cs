@@ -1,7 +1,7 @@
 ﻿using Licenses.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.Eventing.Reader;
-
+ 
 namespace Licenses.Repositories.ClientRepositories
 {
     public class ClientRepository:IClientRepository
@@ -35,7 +35,7 @@ namespace Licenses.Repositories.ClientRepositories
                 return await _Db.
                    Set<Client>().
                    AsNoTracking().
-                   FirstOrDefaultAsync(c => c.NationalId == nationalid && !c.IsDeleted);
+                   FirstOrDefaultAsync(c => c.NationalId == nationalid );
             
         }
         public IQueryable<Client?> GetByNameOrNationalId(string search, int page = 1, int pageSize = 15)

@@ -1,0 +1,154 @@
+﻿
+
+ ===========================
+   Page Background
+=========================== 
+body {
+    background: linear-gradient(135deg, #eef5ff, #f8fbff);
+}
+
+
+ ===========================
+   Card
+=========================== 
+.card {
+    border-radius: 20px;
+    overflow: hidden;
+    transition: all .3s ease;
+}
+
+    .card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 20px 45px rgba(0,0,0,.12) !important;
+    }
+
+ ===========================
+   Header
+=========================== 
+.card-header {
+    background: linear-gradient(135deg, #0d6efd, #4f8cff) !important;
+    padding: 1.7rem;
+}
+
+    .card-header h3 {
+        font-weight: 700;
+        font-size: 1.6rem;
+        letter-spacing: .5px;
+    }
+
+    .card-header p {
+        font-size: .95rem;
+        opacity: .9;
+    }
+
+ ===========================
+   Labels
+=========================== 
+.form-label {
+    color: #34495e;
+    font-weight: 600;
+}
+
+ ===========================
+   Inputs
+=========================== 
+.form-control {
+    border-radius: 12px;
+    border: 1px solid #d6dce5;
+    transition: .25s;
+}
+
+    .form-control:focus {
+        border-color: #0d6efd;
+        box-shadow: 0 0 0 .2rem rgba(13,110,253,.15);
+    }
+
+ ===========================
+   Save Button
+=========================== 
+.btn-primary {
+    background: linear-gradient(135deg,#0d6efd,#4f8cff);
+    border: none;
+    border-radius: 12px;
+    transition: .3s;
+    font-weight: 600;
+}
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(13,110,253,.35);
+    }
+
+ ===========================
+   Back Button
+=========================== 
+.btn-outline-secondary {
+    border-radius: 12px;
+    font-weight: 600;
+    transition: .3s;
+}
+
+    .btn-outline-secondary:hover {
+        background: #6c757d;
+        color: white;
+        transform: translateY(-2px);
+    }
+
+ ===========================
+   Validation
+=========================== 
+.text-danger {
+    font-size: .9rem;
+}
+
+.alert-danger {
+    border-radius: 12px;
+}
+
+ ===========================
+   Responsive
+=========================== 
+
+@media (max-width: 768px) {
+
+    .container {
+        padding: 1rem;
+    }
+
+    .card {
+        border-radius: 15px;
+    }
+
+    .card-header {
+        padding: 1.2rem;
+    }
+
+        .card-header h3 {
+            font-size: 1.25rem;
+        }
+
+        .card-header p {
+            font-size: .85rem;
+        }
+
+    .form-control-lg {
+        font-size: 1rem;
+        padding: .75rem;
+    }
+
+    .btn-lg {
+        font-size: 1rem;
+        padding: .75rem;
+    }
+}
+
+@media (max-width: 576px) {
+
+    .card-body {
+        padding: 1.2rem !important;
+    }
+
+    .btn {
+        width: 100%;
+    }
+}

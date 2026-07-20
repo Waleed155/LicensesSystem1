@@ -3,7 +3,7 @@
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
-@model ClientAddViewModel;
+@model ClientReadViewModel;
 @{
 }
 <div class="container py-4">
@@ -22,8 +22,9 @@
                 <div class="card-body p-4">
                     <div asp-validation-summary="ModelOnly"
                          class="alert alert-danger"></div>
-                    <form asp-action="Edit" method="post">
+                    <form asp-action="SaveEditting" method="post">
                         <div class="mb-3">
+                            <input type="hidden" name="Id" asp-for="Id"  />
                             <label asp-for="Name" class="form-label fw-semibold"></label>
 
                             <div class="input-group">
@@ -105,7 +106,7 @@
                                 الرجوع لصفحه العملاء
                             </a>
                             <button type="submit"
-                                    asp-action="Edit"
+                                    asp-action="SaveEditting"
                                     class="btn btn-success btn-lg">
                                 <i class="bi bi-check-circle"></i>
                                  حفظ التعديلات      

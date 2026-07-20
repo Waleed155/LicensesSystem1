@@ -1,0 +1,162 @@
+﻿===========================
+
+ Tablet (≤ 992px)
+=========================== 
+@media (max-width: 992px) {
+
+    .container {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .d-flex.justify-content-between.align-items-center.mb-4 {
+        flex-direction: column;
+        align-items: stretch !important;
+        text-align: center;
+        gap: 1rem;
+    }
+
+        .d-flex.justify-content-between.align-items-center.mb-4 .btn-primary {
+            width: 100%;
+        }
+
+    .card h5 {
+        font-size: 1.1rem;
+    }
+}
+
+ ===========================
+   Mobile (≤ 768px)
+=========================== 
+@media (max-width: 768px) {
+
+    .container {
+        padding: 15px;
+    }
+
+    h2 {
+        font-size: 1.6rem;
+    }
+
+    .card {
+        border-radius: 16px;
+    }
+
+    .card-body {
+        padding: 1.25rem;
+    }
+
+    .card-footer {
+        padding: 1rem;
+    }
+
+        .card-footer .d-flex {
+            flex-direction: column;
+            gap: .75rem;
+        }
+
+        .card-footer form {
+            width: 100%;
+        }
+
+        .card-footer .btn {
+            width: 100%;
+        }
+
+    .badge {
+        font-size: .7rem;
+    }
+
+    .toast {
+        width: 95%;
+        margin: auto;
+    }
+}
+
+
+ ===========================
+   Small Phones (≤ 576px)
+=========================== 
+@media (max-width: 576px) {
+
+    h2 {
+        font-size: 1.4rem;
+    }
+
+    small {
+        font-size: .85rem;
+    }
+
+    .card h5 {
+        font-size: 1rem;
+    }
+
+    .btn {
+        font-size: .9rem;
+        padding: .7rem;
+    }
+
+    .badge {
+        padding: .45rem .75rem;
+    }
+
+    .toast {
+        width: 100%;
+    }
+}
+
+body {
+    <style> .card
+
+{
+    transition: .25s;
+}
+
+.card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 .8rem 1.5rem rgba(0,0,0,.12) !important;
+}
+
+.btn {
+    border-radius: 10px;
+}
+
+.card-footer {
+    padding-top: 0;
+}
+
+.gradient-btn {
+    background: linear-gradient(135deg,#4F46E5,#7C3AED);
+    color: cadetblue;
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(79,70,229,.35);
+    transition: .3s;
+}
+
+    .gradient-btn:hover {
+        color: black;
+        transform: translateY(-2px);
+        box-shadow: 0 14px 30px rgba(79,70,229,.45);
+    }
+        .toast
+
+{
+    min-width: 320px;
+    border-radius: 16px;
+    backdrop-filter: blur(8px);
+}
+
+.toast-body {
+    padding: 16px;
+    font-weight: 500;
+}
+
+@media (max-width:576px) {
+
+    .toast {
+        min-width: 95vw;
+    }
+}
+
+

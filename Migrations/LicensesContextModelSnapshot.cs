@@ -63,12 +63,15 @@ namespace Licenses.Migrations
 
                     b.Property<string>("NationalId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("SecondPhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("NationalId")
+                        .IsUnique();
 
                     b.ToTable("Clients");
                 });
