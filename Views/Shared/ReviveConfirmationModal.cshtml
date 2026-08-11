@@ -1,0 +1,60 @@
+﻿@Html.AntiForgeryToken()
+<div class="modal fade" id="ReviveModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title">
+                    <i class="bi bi-exclamation-triangle-fill"></i>
+                    تأكيد الإعاده
+                </h5>
+
+                <button type="button"
+                        class="btn-close btn-close-white"
+                        data-bs-dismiss="modal">
+                </button>
+            </div>
+
+            <div class="modal-body">
+                هل انت متاكد من الإعاده
+                <br />
+                <strong></strong>
+            </div>
+
+            <div class="modal-footer">
+
+                <button class="btn btn-danger"
+                        data-bs-dismiss="modal">
+                    إلغاء
+                </button>
+
+                <form id="ReviveForm" method="post" asp-action="Revive">
+                    <input type="hidden" name="Id" id="ReviveId" />
+                    <button type="submit" class="btn btn-success">
+                        نعم إسترجاع
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('ReviveModal')
+        .addEventListener('show.bs.modal', function (event) {
+
+        const button = event.relatedTarget;
+
+        const id = button.getAttribute('data-id');
+
+
+            document.getElementById('ReviveId').value = id;
+
+    });
+
+</script>
+
+

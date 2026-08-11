@@ -4,9 +4,11 @@ using Licenses.Models;
 using Licenses.Repositories.OrderRepositpories;
 using Licenses.Validators.ActivityTypeValidators;
 using Mapster;
+using MapsterMapper;
 using Licenses.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using Licenses.Validators.OrderValidator;
+using Licenses.Dto;
 namespace Licenses.Services.OrderServices
 {
     public class OrderService:IOrderService
@@ -15,28 +17,56 @@ namespace Licenses.Services.OrderServices
         public OrderService(IOrderRepository orderRepository) { 
         _orderRepository = orderRepository;
         }
-        public  async Task<ResultViewModel<IEnumerable<OrderReadDto?>>> GetAllAsync(int page=1 ,int pageSize=10)
+        public  async Task<ResultViewModel<PagedResult<OrderReadDto?>>> GetAllAsync(int page=1 ,int pageSize=15)
         {
             try
             {
                 var orders = _orderRepository.GetAll( page ,  pageSize );
-                if (orders.Count() > 0)
+                int allOdersCount = await _orderRepository.CountAsync();
+                var ordersReadDto = await orders.ProjectToType<OrderReadDto>().ToListAsync();
+                var result = PagedResult<OrderReadDto?>.PaginationData(ordersReadDto, allOdersCount, page, pageSize);
+                if (result.Items.Any())
                 {
-                    var ordersReadDto = await orders.ProjectToType<OrderReadDto>().ToListAsync();
+                 
+                    return ResultViewModel<PagedResult<OrderReadDto?>>.Success(result);
+            }
+                else
+            {
+                return ResultViewModel<PagedResult<OrderReadDto?>>.Success(result,"لا يوجد اسماء طلبات ");
+            }
+        }
+            catch
+            {
+                return ResultViewModel<PagedResult<OrderReadDto?>>.Failure("there is aproblem in service");
 
-                    return ResultViewModel<IEnumerable<OrderReadDto?>>.Success(ordersReadDto);
+            }
+        }
+        public async Task<ResultViewModel<PagedResult<OrderReadDto?>>> 
+            GetAllDeletedAsync(int page = 1, int pageSize = 15)
+        {
+            try
+            {
+                var deletedOrders = _orderRepository.GetAllDeleted(page, pageSize);
+                int allDeletedOdersCount = await _orderRepository.CountDeletedAsync();
+                if (deletedOrders != null)
+                {
+                    var ordersReadDto = await deletedOrders.ProjectToType<OrderReadDto>().ToListAsync();
+                    var result = PagedResult<OrderReadDto?>.PaginationData(ordersReadDto, allDeletedOdersCount, page, pageSize);
+
+                    return ResultViewModel<PagedResult<OrderReadDto?>>.Success(result);
                 }
                 else
                 {
-                    return ResultViewModel<IEnumerable<OrderReadDto?>>.Failure("لا يوجد اسماء طلبات ");
+                    return ResultViewModel<PagedResult<OrderReadDto?>>.Failure(" لا يوجد طلبات تم مسحه م قبل");
                 }
             }
             catch
             {
-                return ResultViewModel<IEnumerable<OrderReadDto?>>.Failure("there is aproblem in service");
+                return ResultViewModel<PagedResult<OrderReadDto?>>.Failure("there is aproblem in service");
 
             }
         }
+
         public async Task<ResultViewModel<OrderReadDto?>> GetByIdAsync(int id)
         {
             try
@@ -63,16 +93,48 @@ namespace Licenses.Services.OrderServices
 
             }
         }
-        //public async Task< ResultViewModel<IEnumerable<OrderReadDto?>>> SearchByNameAsync(string name)
-        //{
-        //    try
-        //    {
+        public async Task<ResultViewModel<PagedResult<OrderReadDto?>>>
+            SearchByNameAsync(string name ,int page=1,int pageSize=15)
+        {
+            try
+            {
+                var validatorResult = Validators.Validators.NameValidator(name);
+                if (!validatorResult.State)
+                    return ResultViewModel<PagedResult<OrderReadDto?>>.Failure(validatorResult.Message);
+                var orders =  _orderRepository.SearchByName(name, page, pageSize);
+                if(orders==null)
+                    return ResultViewModel<PagedResult<OrderReadDto?>>.Failure("لايوجد طلبات بهذا الاسم");
+                   var ordersReadDto=  await  orders.ProjectToType<OrderReadDto>().ToListAsync();
+                int ordersCount = await _orderRepository.CountSearchAsync(name);
 
-        //    }catch
-        //    {
+                var result =PagedResult<OrderReadDto?>.PaginationData(ordersReadDto,ordersCount,page,pageSize);
+                return ResultViewModel<PagedResult<OrderReadDto?>>.Success(result);
+            }
+            catch
+            {
+                return ResultViewModel<PagedResult<OrderReadDto?>>.Failure("problem in service");
 
-        //    }
-        //}
+            }
+        }
+        public async Task<ResultViewModel<PagedResult<OrderReadDto?>>> SearchByDeletedNameAsync(string name, int page = 1, int pageSize = 15)
+        {
+            try
+            {
+               
+                var deletedOrders = _orderRepository.SearchByNameDeleted(name, page, pageSize);
+                if (!deletedOrders.Any() )
+                    return ResultViewModel<PagedResult<OrderReadDto?>>.Failure("لايوجد طلبات بهذا الاسم");
+                var ordersReadDto = await deletedOrders.ProjectToType<OrderReadDto>().ToListAsync();
+                int deletedOrdersCount =await _orderRepository.CountSearchDeletedAsync(name);
+                var result = PagedResult<OrderReadDto?>.PaginationData(ordersReadDto, deletedOrdersCount, page, pageSize);
+                return ResultViewModel<PagedResult<OrderReadDto?>>.Success(result);
+            }
+            catch
+            {
+                return ResultViewModel<PagedResult<OrderReadDto?>>.Failure("problem in service");
+
+            }
+        }
         public async Task<ResultViewModel<OrderReadDto>> AddAsync(OrderAddDto orderAddDto)
         {
             try
@@ -123,8 +185,9 @@ namespace Licenses.Services.OrderServices
                     return ResultViewModel<OrderReadDto>.
                         Failure("هذا النشاط موجود بالفعل او تم مسحه من قبل ");
                 }
-
+              
                 var order = orderReadDto.Adapt<Order>();
+    
                 var updatetedOrder = _orderRepository.Update(order);
                 await _orderRepository.SaveChangesAsync();
                 var updatedOrderReadDto = updatetedOrder.Adapt<OrderReadDto>();
@@ -152,5 +215,24 @@ namespace Licenses.Services.OrderServices
             }
 
         }
+        public async Task<ResultViewModel<bool>> Revive(int id)
+        {
+            try
+            {
+                var order = await _orderRepository.GetByIdAsync(id);
+                if (order == null) 
+                    return ResultViewModel<bool>.Failure("لا يوجد طلب تم مسحه بهذا الرقم");
+                bool result = _orderRepository.Revive(order);
+                if (!result) return ResultViewModel<bool>.Failure("problem in repo");
+                await _orderRepository.SaveChangesAsync();
+                return ResultViewModel<bool>.Success(result);
+            }
+            catch
+            {
+                return ResultViewModel<bool>.Failure("there is problem in service");
+            }
+
+        }
+
     }
 }

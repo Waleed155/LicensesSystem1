@@ -4,6 +4,7 @@ using Licenses.Services.ExcutivePositionServices;
 using Licenses.ViewModels.ExcutivePositionViewModel;
 using Licenses.Dto.ExcutivePositionDto;
 using Licenses.ViewModels;
+using Licenses.ViewModels.ClientViewModels;
 
 namespace Licenses.Controllers
 {
@@ -77,9 +78,11 @@ namespace Licenses.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(ExcutivePositionReadViewModel ExcutivePositionReadViewModel)
+        public async Task< IActionResult >Edit(int id )
         {
-            return View(ExcutivePositionReadViewModel);
+            var excutivePositionReadDto = await _excutivePositionService.GetByIdAsync(id);
+            var excutivePositionReadViewModel = excutivePositionReadDto.Result.Adapt<ExcutivePositionReadViewModel>();
+            return View(excutivePositionReadViewModel);
         }
 
         [HttpPost]
@@ -112,7 +115,7 @@ namespace Licenses.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
-            try
+            try 
             {
                 var result = await _excutivePositionService.SoftDeleteAsync(id);
                 if (!result.State)

@@ -12,6 +12,7 @@ using Licenses.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Licenses.Dto;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Licenses.ViewModels.OrderViewModel;
 
 namespace Licenses.Controllers
 {
@@ -162,8 +163,10 @@ namespace Licenses.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public  IActionResult Edit(ClientReadViewModel clientReadViewModel)
+        public  async Task< IActionResult> Edit(int  id)
         {
+            var clientReadDto = await _clientService.GetByIdAsync(id);
+            var clientReadViewModel = clientReadDto.Result.Adapt<ClientReadViewModel>();
             return View(clientReadViewModel);
         }
         [HttpPost]

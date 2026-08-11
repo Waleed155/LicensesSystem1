@@ -1,0 +1,21 @@
+﻿
+@{
+    Layout = null;
+    bool b = true;
+}
+
+<!DOCTYPE html>
+<html>
+<body>
+
+    <input id="t1" value="@true" />
+
+</body>
+</html>
+<script>
+    const input = document.getElementById("t1");
+
+    console.log("getAttribute:", input.getAttribute("value"));
+    console.log("property:", input.value);
+    console.log("outerHTML:", input.outerHTML);
+</script>

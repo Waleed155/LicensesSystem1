@@ -6,8 +6,8 @@ namespace Licenses.ViewModels.ClientViewModels
     {
         [Required(ErrorMessage = "الاسم مطلوب")]
 
-        [RegularExpression(@"^[\u0621-\u064A]{2,}(?:\s+[\u0621-\u064A]{2,}){2,}$", 
-            ErrorMessage = "يجب إدخال اسم عربي ثلاثي على الأقل، وأن يكون كل جزء مكونًا من حرفين أو أكثر.")]
+        [RegularExpression(@"^(?=.{3,}$)[\u0621-\u064A]+(?:\s+[\u0621-\u064A]+)*$", 
+            ErrorMessage = "يجب إدخال اسم عربي وأن يكون كل جزء مكونًا من حرفين أو أكثر.")]
         public string Name { get; set; }
         [Required(ErrorMessage = "الرقم القومي مطلوب")]
         [RegularExpression(

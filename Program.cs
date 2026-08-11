@@ -20,6 +20,9 @@ using Licenses.Repositories.TransactionLotOrderStagesRepositories;
 using Licenses.Services.ClientServices;
 using Licenses.Services.ActivityTypeServices;
 using Licenses.Services.ExcutivePositionServices;
+using Licenses.Services.OrderServices;
+using Licenses.Services.StepServices;
+using Licenses.Services.StageServices;
 
 
 
@@ -100,12 +103,21 @@ namespace Licenses
             builder.
                 Services.
                 AddScoped<IExcutivePositionService, ExcutivePositionService>();
-                
+            builder.
+                    Services.
+                    AddScoped<IOrderService, OrderService>();
+            builder.
+                Services.
+                AddScoped<IStepService,StepService>();
+            builder.
+                Services.
+                AddScoped<IStageService, StageService>();
             #endregion
             #endregion
             #region AddLocalizationForArabic 
             builder.Services.AddLocalization(op => op.ResourcesPath = "Resources");
             #endregion
+
             var app = builder.Build();
             #region SupportCulture
             var supportedCultures = new[]

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "cfD4vKkkRm4swdmIt0+dinzhKPLgjLQA1v14ybCFNKc=",
+  "Hash": "BPden+/unRWYIc0WkUhdVrGpbFPnNIumzDmh0CxLSV4=",
   "Source": "Licenses",
   "BasePath": "_content/Licenses",
   "Mode": "Default",
@@ -129,6 +129,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\ExcutivePosition\\Index.css"
+    },
+    {
+      "Identity": "C:\\Users\\Waleed Beeh\\source\\repos\\Licenses\\Licenses\\wwwroot\\css\\Order\\Index.css",
+      "SourceId": "Licenses",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Waleed Beeh\\source\\repos\\Licenses\\Licenses\\wwwroot\\",
+      "BasePath": "_content/Licenses",
+      "RelativePath": "css/Order/Index.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\Order\\Index.css"
     },
     {
       "Identity": "C:\\Users\\Waleed Beeh\\source\\repos\\Licenses\\Licenses\\wwwroot\\css\\site.css",

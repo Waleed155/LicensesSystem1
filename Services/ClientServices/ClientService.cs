@@ -27,12 +27,12 @@ namespace Licenses.Services.ClientServices
             try
             {
                 var Clients = _clientRepository.GetAll(page, pageSize);
-                var countClients =await _clientRepository.CountAsync();
-                if (countClients>0)
+                var ClientsCount =await _clientRepository.CountAsync();
+                if (Clients!=null)
                 {
                     var clientsReadDto = await Clients.ProjectToType<ClientReadDto>().ToListAsync();
-                    var result = PagedResult<ClientReadDto>.
-                        PaginationData(clientsReadDto, page, pageSize, countClients);
+                    var result = PagedResult<ClientReadDto?>.
+                        PaginationData(clientsReadDto,ClientsCount, page, pageSize);
                     return ResultViewModel<PagedResult<ClientReadDto?>>.Success(result);
                 }
                 else
@@ -153,13 +153,13 @@ namespace Licenses.Services.ClientServices
             try
             {
                    var clients= _clientRepository.GetByNameOrNationalId(name, page, pageSize);
-                var countClients=await _clientRepository.CountSearchAsync(name);
-                if (countClients > 0)
+                var clientsCount=await _clientRepository.CountSearchAsync(name);
+                if (clients!=null)
                 {
                     var clientsReadDto = await clients.ProjectToType<ClientReadDto>().ToListAsync();
 
                     var result = PagedResult<ClientReadDto>.
-                        PaginationData(clientsReadDto, page, pageSize, countClients);
+                        PaginationData(clientsReadDto,clientsCount, page, pageSize);
                     return ResultViewModel<PagedResult<ClientReadDto>>
                         .Success(result);
 

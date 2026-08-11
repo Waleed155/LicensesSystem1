@@ -5,13 +5,13 @@
         public string Message { get; set; }
         public bool State { get; set; }
         public T? Result { get; set; }
-        public static ResultViewModel<T> Success(T data)
+        public static ResultViewModel<T> Success(T data,string message="done")
         {
             return new ResultViewModel<T>()
             {
                 State = true,
                 Result = data,
-                Message = "done"
+                Message = message
             };
 
         }

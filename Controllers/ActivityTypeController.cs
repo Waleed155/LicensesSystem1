@@ -3,6 +3,7 @@ using Licenses.Services.ActivityTypeServices;
 using Licenses.Services.ClientServices;
 using Licenses.ViewModels;
 using Licenses.ViewModels.ActivityTypeViewModel;
+using Licenses.ViewModels.ClientViewModels;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -73,8 +74,10 @@ namespace Licenses.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public  IActionResult Edit( ActivityTypeReadViewModel activityTypeReadViewModel)
+        public async Task<  IActionResult> Edit( int id)
         {
+            var activityTypeReadDto = await _activityTypeService.GetByIdAsync(id);
+            var activityTypeReadViewModel = activityTypeReadDto.Result.Adapt<ActivityTypeReadViewModel>();
             return View(activityTypeReadViewModel);
         }
 
